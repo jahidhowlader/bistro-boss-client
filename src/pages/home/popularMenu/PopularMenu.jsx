@@ -10,14 +10,14 @@ const PopularMenu = () => {
 
         fetch('/public/menu.json')
             .then(res => res.json())
-            .then(data=> {
+            .then(data => {
                 const items = data.filter(item => item.category === 'popular')
                 setPopularItem(items)
             })
     }, [])
 
     return (
-        <section className="my-20 max-width">
+        <section className="mt-20 mb-32 max-width">
             <SectionTitle
                 heading="FROM OUR MENU"
                 subHeading="Check it out"
@@ -30,6 +30,10 @@ const PopularMenu = () => {
                         item={item}
                     ></MenuItem>)
                 }
+            </div>
+
+            <div className="text-center mt-12">
+                <button className="btn btn-outline border-0 border-b-2 text-xl rounded-md font-normal  hover:bg-sub-title hover:border-sub-title hover:text-black px-6">View Full  Menu</button>
             </div>
         </section>
     );

@@ -2,7 +2,7 @@ import './CheifService.css'
 
 const CheifService = () => {
     return (
-        <div className='thumbnail max-width'>
+        <div className='thumbnail max-width bg-fixed'>
             <div className='py-28 px-36'>
                 <div className='bg-white py-24 text-center px-40'>
                     <h2 className='text-5xl logo-font'>Bistro Boss</h2>
