@@ -12,7 +12,7 @@ import './Banner.css'
 
 const Banner = () => {
     return (
-        <Carousel className='text-center'>
+        <Carousel infiniteLoop={true} className='text-center'>
         <div>
             <img src={banner1} alt="banner1" />
         </div>

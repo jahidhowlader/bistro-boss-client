@@ -6,7 +6,7 @@
 @tailwind utilities;
 
 .max-width {
-    @apply w-full md:w-[1320px] mx-auto
+    @apply md:w-[1320px] mx-auto
 }
 
 body{
