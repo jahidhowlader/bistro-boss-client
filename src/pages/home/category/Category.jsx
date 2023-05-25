@@ -20,7 +20,7 @@ import SectionTitle from "../../share/sectionTitle/SectionTitle";
 
 const Category = () => {
     return (
-        <section className=" max-width mt-20">
+        <section data-aos="zoom-in-up" data-aos-duration="2000" className=" max-width mt-20">
             <SectionTitle
                 heading="ORDER ONLINE"
                 subHeading="From 11:00am to 10:00pm"

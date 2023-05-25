@@ -1,0 +1,17 @@
+.react-tabs__tab{
+    /* border: 1px solid #D99904; */
+    overflow: hidden;
+}
+
+.react-tabs__tab:focus{
+    outline: #D99904;
+}
+
+.react-tabs__tab--selected{
+    background: none ;
+    border: 0 ;
+    border-bottom: 1px solid #D99904 ;
+    border-radius: 0px ;
+    color: #D99904;
+    overflow: hidden;
+}

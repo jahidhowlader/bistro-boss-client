@@ -10,9 +10,15 @@ import banner6 from '../../../assets/home/06.png'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import './Banner.css'
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+AOS.init();
+
 const Banner = () => {
     return (
-        <Carousel infiniteLoop={true} className='text-center'>
+        <>
+        <section data-aos="zoom-in" data-aos-duration="2000"> 
+        <Carousel infiniteLoop={true} className='text-center' >
         <div>
             <img src={banner1} alt="banner1" />
         </div>
@@ -32,6 +38,8 @@ const Banner = () => {
             <img src={banner6} alt='Banner6' />
         </div>
     </Carousel>
+    </section>
+    </>
     );
 };
 

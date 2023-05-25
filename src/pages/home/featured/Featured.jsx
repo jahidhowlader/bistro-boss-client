@@ -4,7 +4,7 @@ import './Featured.css'
 
 const Featured = () => {
     return (
-        <section className="featured-background py-32 text-white">
+        <section className="featured-background py-32 text-white mt-32">
                 <div className="text-center mx-auto mt-4 mb-12 w-3/12">
                     <p className="text-sub-title pb-5">---Check it out---</p>
                     <h3 className="text-4xl border-y-2 border-white py-3">FROM OUR MENU</h3>
