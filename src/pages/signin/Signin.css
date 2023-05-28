@@ -1,0 +1,18 @@
+#authCover {
+    background-image: url("../../assets//others//authentication.png");
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#authBg {
+    background-image: url("../../assets//others//authentication.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#captcha canvas{
+    width: 100%;
+    height: 48px;
+    border-radius: 8px;
+}
