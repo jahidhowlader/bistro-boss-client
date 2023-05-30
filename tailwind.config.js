@@ -12,7 +12,8 @@ export default {
       "sub-title": "#D99904",
       "grey": "#F3F3F3",
       "btn-grey": "#E8E8E8",
-      "iris": "#5D5FEF"
+      "iris": "#5D5FEF",
+      "red": "#EF4444"
     },
     letterSpacing: {
       tightest: '-.075em',
