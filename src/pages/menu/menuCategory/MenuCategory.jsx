@@ -23,7 +23,7 @@ const MenuCategory = ({ items, bgImg, height, imageAlt, title, details }) => {
                 }
             </div>
             <div className="text-center mt-12">
-                <Link to={`/shop/${title && title.toLocaleLowerCase()}`} className="btn btn-outline border-0 border-b-2 text-xl rounded-md font-normal  hover:bg-sub-title hover:border-sub-title hover:text-black px-6">View Full  Menu</Link>
+                <Link to={`/shop/${title ? title.toLocaleLowerCase() : 'salad'}`} className="btn btn-outline border-0 border-b-2 text-xl rounded-md font-normal  hover:bg-sub-title hover:border-sub-title hover:text-black px-6">View Full  Menu</Link>
             </div>
         </div>
     );

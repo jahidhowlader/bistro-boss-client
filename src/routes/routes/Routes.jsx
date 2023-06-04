@@ -5,6 +5,9 @@ import Menu from "../../pages/menu/menu/Menu";
 import Shop from "../../pages/shop/shop/Shop";
 import Signin from "../../pages/signin/Signin";
 import Signup from "../../pages/signup/Signup";
+import PrivateRoute from "../privateRoute/PrivateRoute";
+import Dashboard from "../../layout/Dashboard";
+import MyCart from "../../pages/dashboard/myCart/MyCart";
 
 export const router = createBrowserRouter([
     {
@@ -30,7 +33,21 @@ export const router = createBrowserRouter([
             {
                 path: "signup",
                 element: <Signup></Signup>
+            },
+            {
+                path: "private",
+                element: <PrivateRoute><h1 className="text-9xl">Private Route</h1></PrivateRoute>
             }
         ]
     },
+    {
+        path: "dashboard",
+        element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
+        children: [
+            {
+                path: "mycart",
+                element: <MyCart></MyCart>
+            }
+        ]
+    }
 ]);

@@ -1,15 +1,28 @@
 import { FaFacebookF, FaGithub, FaGoogle } from 'react-icons/fa';
 import authThumbnail from '../../assets/others/authentication2.png'
 import './Signin.css'
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useForm } from 'react-hook-form';
+import { AuthContext } from '../../provider/AuthProvider';
+import Swal from 'sweetalert2';
 
 const Signin = () => {
 
+    // All State is here
     const [captcha, setCaptcha] = useState('')
     const [disabled, setDisabled] = useState(true)
+    const [signinError, setSigninError] = useState(false)
+
+    // Use Navigation
+    const location = useLocation()
+    const from = location.state?.from?.pathname || '/'
+    const navigate = useNavigate()
+
+
+    console.log(location);
 
     useEffect(() => {
 
@@ -30,6 +43,45 @@ const Signin = () => {
         }
     }
 
+    // Auth Context
+    const { signIn, signinWithGoogle, profileUpdated } = useContext(AuthContext)
+
+    // React Form Hook 
+    const { register, handleSubmit, formState: { errors } } = useForm();
+
+    const onSubmit = data => {
+
+        signIn(data.email, data.password)
+            .then(userCredential => {
+                console.log(userCredential.user);
+                navigate(from, { replace: true })
+            })
+            .catch(e => {
+
+                setSigninError(true)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: e.code,
+                    html: `<span class="text-red font-bold">${e.code}`,
+                })
+            })
+    }
+
+    // Handler Google Signin
+    const handlerGoogleSignin = () => {
+        signinWithGoogle()
+            .then(userCredential => {
+
+                profileUpdated(userCredential.user.displayName, userCredential.user.photoURL)
+
+                navigate(from, { replace: true })
+            })
+            .catch(e => {
+                console.log(e);
+            })
+    }
+
     return (
         <>
             <Helmet>
@@ -44,13 +96,16 @@ const Signin = () => {
                         </div>
                         <div className='max-w-sm mx-5 md:mx-0 mb-20 md:mb-0'>
                             <h2 className='text-[40px] font-bold text-center w-full '>Sign In</h2>
-                            <form >
+                            <form onSubmit={handleSubmit(onSubmit)}>
                                 {/* Email */}
                                 <div className="form-control">
                                     <label className="label">
                                         <span className="label-text font-bold">Email</span>
                                     </label>
-                                    <input type="email" name='email' placeholder="Enter your email" className="input input-bordered w-full " />
+
+                                    <input type="email" {...register("email", { required: true })} name='email' placeholder="Enter your email" className={`input input-bordered w-full ${errors.email || signinError ? 'border-red focus:outline-red' : ''}`} />
+
+                                    {errors.email && <span className='mt-1 text-red'>Email is required</span>}
                                 </div>
 
                                 {/* Password */}
@@ -58,7 +113,10 @@ const Signin = () => {
                                     <label className="label">
                                         <span className="label-text font-bold">Password</span>
                                     </label>
-                                    <input type="text" name='password' placeholder="Enter your password" className="input input-bordered w-full " />
+
+                                    <input type="password" {...register("password", { required: true })} name='password' placeholder="Enter your password" className={`input input-bordered w-full ${errors.password || signinError ? 'border-red focus:outline-red' : ''}`} />
+
+                                    {errors.password && <span className='mt-1 text-red'>Password is required</span>}
                                 </div>
 
                                 {/* Captcha */}
@@ -79,7 +137,7 @@ const Signin = () => {
                                 <div className='flex justify-center items-center pt-3'>
                                     <div className='flex gap-14'>
                                         <FaFacebookF className='border-2 rounded-full text-4xl p-2 cursor-pointer hover:bg-sub-title hover:text-white hover:border-sub-title'></FaFacebookF>
-                                        <FaGoogle className='border-2 rounded-full text-4xl p-2 cursor-pointer hover:bg-sub-title hover:text-white hover:border-sub-title'></FaGoogle>
+                                        <FaGoogle onClick={handlerGoogleSignin} className='border-2 rounded-full text-4xl p-2 cursor-pointer hover:bg-sub-title hover:text-white hover:border-sub-title'></FaGoogle>
                                         <FaGithub className='border-2 rounded-full text-4xl p-2 cursor-pointer hover:bg-sub-title hover:text-white hover:border-sub-title'></FaGithub>
                                     </div>
                                 </div>

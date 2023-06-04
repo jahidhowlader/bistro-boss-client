@@ -16,3 +16,18 @@
     height: 48px;
     border-radius: 8px;
 }
+
+.swal2-title{
+    font-weight: 700;
+    font-size: 24px;
+}
+
+:where(.swal2-styled).swal2-confirm{
+    background: red !important;
+    padding: 5px 30px;
+    margin: 0px 10px;
+}
+
+:where(.swal2-styled).swal2-cancel{
+    padding: 5px 30px;
+}

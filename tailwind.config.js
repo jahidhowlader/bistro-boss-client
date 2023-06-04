@@ -13,7 +13,9 @@ export default {
       "grey": "#F3F3F3",
       "btn-grey": "#E8E8E8",
       "iris": "#5D5FEF",
-      "red": "#EF4444"
+      "red": "#EF4444",
+      "d-nav": "#D1A054",
+      "dashboard": "#F6F6F6"
     },
     letterSpacing: {
       tightest: '-.075em',

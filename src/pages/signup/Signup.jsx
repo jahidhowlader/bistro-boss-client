@@ -1,7 +1,7 @@
 import { FaFacebookF, FaGithub, FaGoogle } from 'react-icons/fa';
 import authThumbnail from '../../assets/others/authentication2.png'
 import './Signup.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../provider/AuthProvider';
 import { useForm } from 'react-hook-form';
@@ -10,10 +10,10 @@ import { Helmet } from 'react-helmet-async';
 const Signup = () => {
 
     // Context API
-    const { user, signinWithGoogle, createUser } = useContext(AuthContext)
+    const { signinWithGoogle, createUser, profileUpdated } = useContext(AuthContext)
 
     // React Hook Form
-    const { register, handleSubmit, watch, formState: { errors } } = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm()
 
     const onSubmit = data => {
         console.log(data);
@@ -27,13 +27,22 @@ const Signup = () => {
             })
     }
 
-    // const handlerGoogleSignin = () => {
-    //     signinWithGoogle()
-    //     .then()
-    //     .catch(e => {
-    //         console.log(e);
-    //     })
-    // }
+    // Use Navigation
+    const navigate = useNavigate()
+
+    // Handler Google Signin
+    const handlerGoogleSignin = () => {
+        signinWithGoogle()
+            .then(userCredential => {
+
+                profileUpdated(userCredential.user.displayName, userCredential.user.photoURL)
+
+                navigate('/')
+            })
+            .catch(e => {
+                console.log(e);
+            })
+    }
 
     return (
         <>
@@ -66,11 +75,11 @@ const Signup = () => {
                                     <label className="label">
                                         <span className="label-text font-bold">Email</span>
                                     </label>
-                                    <input type="email" {...register("email" , {
+                                    <input type="email" {...register("email", {
                                         required: true,
-                                        pattern: /(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/   
-                                    })} 
-                                    name='email' placeholder="Enter your email" className={`input input-bordered w-full ${errors.email ? 'border-red focus:outline-red' : ''}`} />
+                                        pattern: /(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/
+                                    })}
+                                        name='email' placeholder="Enter your email" className={`input input-bordered w-full ${errors.email ? 'border-red focus:outline-red' : ''}`} />
                                     {
                                         errors.email?.type === 'required' && <span className='text-red mt-1'>Email is required</span>
                                     }
@@ -117,7 +126,7 @@ const Signup = () => {
                                 <div className='flex justify-center items-center pt-3'>
                                     <div className='flex gap-14'>
                                         <FaFacebookF className='border-2 rounded-full text-4xl p-2 cursor-pointer hover:bg-sub-title hover:text-white hover:border-sub-title'></FaFacebookF>
-                                        <FaGoogle className='border-2 rounded-full text-4xl p-2 cursor-pointer hover:bg-sub-title hover:text-white hover:border-sub-title'></FaGoogle>
+                                        <FaGoogle onClick={handlerGoogleSignin} className='border-2 rounded-full text-4xl p-2 cursor-pointer hover:bg-sub-title hover:text-white hover:border-sub-title'></FaGoogle>
                                         <FaGithub className='border-2 rounded-full text-4xl p-2 cursor-pointer hover:bg-sub-title hover:text-white hover:border-sub-title'></FaGithub>
                                     </div>
                                 </div>

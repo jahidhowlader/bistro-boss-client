@@ -42,15 +42,13 @@ const Shop = () => {
             <div className='my-16'>
                 <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
                     <TabList className="text-center font-bold">
+                        
                         <Tab><Link to="/shop/salad">SALADS</Link></Tab>
                         <Tab><Link to="/shop/pizza">PIZZA</Link></Tab>
                         <Tab><Link to="/shop/soup">SOUPS</Link></Tab>
                         <Tab><Link to="/shop/desserts">DESSERTS</Link></Tab>
                         <Tab><Link to="/shop/drinks">DRINKS</Link></Tab>
-                        {/* <Tab>PIZZA</Tab>
-                        <Tab>SOUPS</Tab>
-                        <Tab>DESSERTS</Tab>
-                        <Tab>DRINKS</Tab> */}
+
                     </TabList>
                     <TabPanel>
                         <OrderTab
