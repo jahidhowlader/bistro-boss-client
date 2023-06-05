@@ -1,4 +1,3 @@
-import { FaFacebookF, FaGithub, FaGoogle } from 'react-icons/fa';
 import authThumbnail from '../../assets/others/authentication2.png'
 import './Signup.css'
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,41 +5,54 @@ import { useContext } from 'react';
 import { AuthContext } from '../../provider/AuthProvider';
 import { useForm } from 'react-hook-form';
 import { Helmet } from 'react-helmet-async';
+import SocialLogin from '../share/socailLogin/SocialLogin';
 
 const Signup = () => {
 
     // Context API
-    const { signinWithGoogle, createUser, profileUpdated } = useContext(AuthContext)
+    const { createUser, profileUpdated } = useContext(AuthContext)
 
     // React Hook Form
-    const { register, handleSubmit, formState: { errors } } = useForm()
-
-    const onSubmit = data => {
-        console.log(data);
-        createUser(data.email, data.password)
-            .then(userCredential => {
-                console.log(userCredential.user);
-            })
-            .catch(e => {
-                console.log(e.message);
-                console.log(e.code);
-            })
-    }
+    const { register, reset, handleSubmit, formState: { errors } } = useForm()
 
     // Use Navigation
     const navigate = useNavigate()
 
-    // Handler Google Signin
-    const handlerGoogleSignin = () => {
-        signinWithGoogle()
-            .then(userCredential => {
+    // form Submit
+    const onSubmit = data => {
 
-                profileUpdated(userCredential.user.displayName, userCredential.user.photoURL)
+        createUser(data.email, data.password)
+            .then(() => {
 
-                navigate('/')
+                profileUpdated(data.name, data.photo)
+                    .then(() => {
+
+                        const savedUser = {
+                            name: data.name,
+                            email: data.email
+                        }
+
+                        fetch('http://localhost:5000/users', {
+                            method: "POST",
+                            headers: {
+                                "content-type": "application/json"
+                            },
+                            body: JSON.stringify(savedUser)
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.insertedId) {
+
+                                    reset()
+                                    navigate('/')
+                                }
+                            })
+                    })
+
             })
             .catch(e => {
-                console.log(e);
+                console.log(e.message);
+                console.log(e.code);
             })
     }
 
@@ -123,13 +135,7 @@ const Signup = () => {
                                     <p className='text-sub-title mt-8 mb-4'>Already registered? <span className='font-bold'> Go to log in</span></p>
                                 </Link>
                                 <p>Or sign in with</p>
-                                <div className='flex justify-center items-center pt-3'>
-                                    <div className='flex gap-14'>
-                                        <FaFacebookF className='border-2 rounded-full text-4xl p-2 cursor-pointer hover:bg-sub-title hover:text-white hover:border-sub-title'></FaFacebookF>
-                                        <FaGoogle onClick={handlerGoogleSignin} className='border-2 rounded-full text-4xl p-2 cursor-pointer hover:bg-sub-title hover:text-white hover:border-sub-title'></FaGoogle>
-                                        <FaGithub className='border-2 rounded-full text-4xl p-2 cursor-pointer hover:bg-sub-title hover:text-white hover:border-sub-title'></FaGithub>
-                                    </div>
-                                </div>
+                                <SocialLogin></SocialLogin>
                             </div>
                         </div>
 

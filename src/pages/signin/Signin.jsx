@@ -1,4 +1,3 @@
-import { FaFacebookF, FaGithub, FaGoogle } from 'react-icons/fa';
 import authThumbnail from '../../assets/others/authentication2.png'
 import './Signin.css'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -8,6 +7,7 @@ import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../provider/AuthProvider';
 import Swal from 'sweetalert2';
+import SocialLogin from '../share/socailLogin/SocialLogin';
 
 const Signin = () => {
 
@@ -20,9 +20,6 @@ const Signin = () => {
     const location = useLocation()
     const from = location.state?.from?.pathname || '/'
     const navigate = useNavigate()
-
-
-    console.log(location);
 
     useEffect(() => {
 
@@ -44,7 +41,7 @@ const Signin = () => {
     }
 
     // Auth Context
-    const { signIn, signinWithGoogle, profileUpdated } = useContext(AuthContext)
+    const { signIn } = useContext(AuthContext)
 
     // React Form Hook 
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -65,20 +62,6 @@ const Signin = () => {
                     text: e.code,
                     html: `<span class="text-red font-bold">${e.code}`,
                 })
-            })
-    }
-
-    // Handler Google Signin
-    const handlerGoogleSignin = () => {
-        signinWithGoogle()
-            .then(userCredential => {
-
-                profileUpdated(userCredential.user.displayName, userCredential.user.photoURL)
-
-                navigate(from, { replace: true })
-            })
-            .catch(e => {
-                console.log(e);
             })
     }
 
@@ -134,13 +117,7 @@ const Signin = () => {
                                     <p className='text-sub-title mt-8 mb-4'>New here? <span className='font-bold '> Create a New Account</span></p>
                                 </Link>
                                 <p>Or sign in with</p>
-                                <div className='flex justify-center items-center pt-3'>
-                                    <div className='flex gap-14'>
-                                        <FaFacebookF className='border-2 rounded-full text-4xl p-2 cursor-pointer hover:bg-sub-title hover:text-white hover:border-sub-title'></FaFacebookF>
-                                        <FaGoogle onClick={handlerGoogleSignin} className='border-2 rounded-full text-4xl p-2 cursor-pointer hover:bg-sub-title hover:text-white hover:border-sub-title'></FaGoogle>
-                                        <FaGithub className='border-2 rounded-full text-4xl p-2 cursor-pointer hover:bg-sub-title hover:text-white hover:border-sub-title'></FaGithub>
-                                    </div>
-                                </div>
+                                <SocialLogin></SocialLogin>
                             </div>
                         </div>
                     </div>

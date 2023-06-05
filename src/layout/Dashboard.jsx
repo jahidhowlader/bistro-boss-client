@@ -1,10 +1,12 @@
-import { FaBookReader, FaCalendarAlt, FaEnvelope, FaGrinStars, FaGripLines, FaHome, FaShoppingBag, FaShoppingCart, FaWallet } from "react-icons/fa";
+import { FaBook, FaBookReader, FaCalendarAlt, FaEnvelope, FaGrinStars, FaGripLines, FaHome, FaShoppingBag, FaShoppingCart, FaStream, FaUsers, FaUtensilSpoon, FaWallet } from "react-icons/fa";
 import { Link, Outlet } from "react-router-dom";
 import useCart from "../hooks/useCart";
 
 const Dashboard = () => {
 
     const [cart] = useCart()
+
+    const isAdmin = true
 
     return (
         <>
@@ -22,25 +24,49 @@ const Dashboard = () => {
 
                     <ul className="menu p-4 w-80 h-full bg-d-nav logo-font font-bold">
                         {/* Sidebar content here */}
-                        <li>
-                            <Link to="/dashboard/home"><FaHome></FaHome> User Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/dashboard/reservations"><FaCalendarAlt></FaCalendarAlt> Reservation</Link>
-                        </li>
-                        <li>
-                            <Link to="/dashboard/history"><FaWallet></FaWallet> payment history</Link>
-                        </li>
-                        <li>
-                            <Link to="/dashboard/mycart"><FaShoppingCart></FaShoppingCart> my cart <div className="badge badge-secondary">{cart?.length || 0}</div></Link>
-                        </li>
-                        <li>
-                            <Link to="/dashboard/review"><FaGrinStars></FaGrinStars> add review</Link>
-                        </li>
-                        <li>
-                            <Link to="/dashboard/bookings"><FaBookReader></FaBookReader> my booking</Link>
-                        </li>
+                        {
+                            isAdmin ?
+                                <>
+                                    <li>
+                                        <Link to="/dashboard/home"><FaHome></FaHome> Admin Home</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/dashboard/home"><FaUtensilSpoon></FaUtensilSpoon> ADD ItEM</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/dashboard/home"><FaStream></FaStream> MANAGE ITEMS</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/dashboard/home"><FaBook></FaBook> MANAGE BOOK</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/dashboard/allusers"><FaUsers></FaUsers> ALL USERS</Link>
+                                    </li>
+                                </> :
+                                <>
+                                    <li>
+                                        <Link to="/dashboard/home"><FaHome></FaHome> User Home</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/dashboard/reservations"><FaCalendarAlt></FaCalendarAlt> Reservation</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/dashboard/history"><FaWallet></FaWallet> payment history</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/dashboard/mycart"><FaShoppingCart></FaShoppingCart> my cart <div className="badge badge-secondary">{cart?.length || 0}</div></Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/dashboard/review"><FaGrinStars></FaGrinStars> add review</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/dashboard/bookings"><FaBookReader></FaBookReader> my booking</Link>
+                                    </li>
+                                </>
+                        }
+
                         <div className="divider "></div>
+
                         <li>
                             <Link to="/"><FaHome></FaHome> Home</Link>
                         </li>
